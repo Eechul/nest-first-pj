@@ -1,5 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { ValidationPipe } from './../pipe/validation.pipe';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { GuestsService } from './guests.service';
+import { CreateGuestDto } from './dto/create-guest.dto';
 
 
 @Controller()
@@ -9,5 +11,12 @@ export class GuestsController {
   @Get()
   getHello(): string {
     return this.guestsService.getHello();
+  }
+
+  @Post()
+  async create(
+      @Body(new ValidationPipe()) createGuestDto: CreateGuestDto
+  ) {
+    this.guestsService.create(createGuestDto);
   }
 }
